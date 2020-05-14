@@ -48,7 +48,7 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'./assets/marlon-framework.min.js': [
-						'.warehouse/javascripts/index.js'
+						'./warehouse/javascripts/index.js'
 					]
 				}
 			},
