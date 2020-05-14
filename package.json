@@ -1,0 +1,59 @@
+{
+	"name": "marlon_framework",
+	"themeName": "Marlon Framework",
+	"textdomain": "marlon",
+	"version": "1.2.5",
+	"year": "2020",
+	"description": "WordPress Plugin",
+	"author": {
+		"name": "Christian Hockenberger",
+		"url": "https://christian.hockenberger.us"
+	},
+	"license": {
+		"name": "GNU General Public License",
+		"version": "v2 or later",
+		"url": "http://www.gnu.org/licenses/gpl-2.0.html"
+	},
+	"homepage": "https://github.com/chrisbergr/marlon-framework",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/chrisbergr/marlon-framework.git"
+	},
+	"bugs": {
+		"url": "https://github.com/chrisbergr/marlon-framework/issues"
+	},
+	"main": "Gruntfile.js",
+	"private": true,
+	"devDependencies": {
+		"coffee-script": "^1.7.1",
+		"grunt": "^0.4.5",
+		"grunt-contrib-less": "^1.4.1",
+		"grunt-contrib-uglify": "^4.0.1",
+		"grunt-text-replace": "^0.4.0",
+		"less-plugin-clean-css": "^1.5.1"
+	},
+	"eslintConfig": {
+		"env": {
+			"browser": true,
+			"node": true
+		},
+		"rules": {
+			"no-console": "off",
+			"no-restricted-syntax": [
+				"error",
+				{
+					"selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace|debug)$/]",
+					"message": "Unexpected property on console object was called"
+				}
+			]
+		},
+		"globals": {
+			"jQuery": true,
+			"TweenMax": true,
+			"Power2": true,
+			"window": true,
+			"navigator": true,
+			"console": true
+		}
+	}
+}
