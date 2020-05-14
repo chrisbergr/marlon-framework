@@ -3,9 +3,9 @@
 if ( ! class_exists( 'Marlon_Utilities' ) ) {
 	class Marlon_Utilities {
 
-		private $core_version    = '';
-		private $plugin_root     = '';
-		private $loader          = false;
+		private $core_version = '';
+		private $plugin_root  = '';
+		protected $loader     = false;
 
 		public function __construct( $version, $root, $loader ) {
 			$this->core_version = $version;

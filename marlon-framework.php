@@ -42,6 +42,8 @@ function marlon_framework() {
 	//TODO: Make modules optional via settings page
 	$modules = array(
 		//'module_template' => 'Module_Template',
+		'post_kicker'    => 'Post_Kicker',
+		'post_subtitle'  => 'Post_Subtitle',
 		'post_utilities' => 'Post_Utilities',
 	);
 	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules );
@@ -50,8 +52,6 @@ function marlon_framework() {
 
 marlon_framework()->run();
 
-
-
 //TODO: add the following to new module third party support
 function third_party_kind_view_paths( $path_list ) {
 	array_unshift( $path_list, plugin_dir_path( __FILE__ ) . 'framework/templates/third-party/kind-views/' );
@@ -59,4 +59,4 @@ function third_party_kind_view_paths( $path_list ) {
 }
 add_filter( 'kind_view_paths', 'third_party_kind_view_paths' );
 
-print_r( '<!-- Marlon v' . marlon_framework()->get_version() . ' -->' );
+//print_r( '<!-- Marlon v' . marlon_framework()->get_version() . ' -->' );
