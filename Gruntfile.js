@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 			},
 			deploy_javascript: {
 				options: {
-					beautify: true,
+					beautify: false,
 					preserveComments: false,
 					wrap: 'marlon',
 					sourceMap: false,
@@ -71,7 +71,7 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'./assets/marlon-framework.min.js': [
-						'.warehouse/javascripts/index.js'
+						'./warehouse/javascripts/index.js'
 					]
 				}
 			}
