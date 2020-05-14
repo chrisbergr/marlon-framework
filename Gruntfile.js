@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 					sourceMap: true
 				},
 				files: {
-					'./assets/marlon-framework.min.css': './warehouse/less/style.less'
+					'./assets/marlon-framework.min.css': './warehouse/less/index.less'
 				}
 			},
 			deploy_style: {
