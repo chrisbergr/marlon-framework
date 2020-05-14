@@ -39,3 +39,4 @@ composer.phar
 npm-debug.log
 bin/
 *.css.map
+*.js.map
