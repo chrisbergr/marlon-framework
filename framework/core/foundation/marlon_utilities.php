@@ -5,11 +5,13 @@ if ( ! class_exists( 'Marlon_Utilities' ) ) {
 
 		private $core_version = '';
 		private $plugin_root  = '';
+		private $plugin_url   = '';
 		protected $loader     = false;
 
-		public function __construct( $version, $root, $loader ) {
+		public function __construct( $version, $root, $url, $loader ) {
 			$this->core_version = $version;
 			$this->plugin_root  = $root;
+			$this->plugin_url   = $url;
 			$this->loader       = $loader;
 			return $this->init();
 		}
@@ -50,6 +52,9 @@ if ( ! class_exists( 'Marlon_Utilities' ) ) {
 		}
 		public function get_plugin_root() {
 			return $this->plugin_root;
+		}
+		public function get_plugin_url() {
+			return $this->plugin_url;
 		}
 
 	}

@@ -6,6 +6,7 @@ if ( ! class_exists( 'Marlon' ) ) {
 		private static $instance = null;
 		private $core_version    = '';
 		private $plugin_root     = '';
+		private $plugin_url      = '';
 		protected $loader        = null;
 		private $modules         = array();
 
@@ -89,7 +90,7 @@ if ( ! class_exists( 'Marlon' ) ) {
 			foreach ( $modules as $module => $name ) {
 				$loading_module = $this->load_module( $module );
 				if ( $loading_module ) {
-					$this->modules[$module] = new $name( $this->get_version(), $this->get_plugin_root(), $this->loader );
+					$this->modules[$module] = new $name( $this->get_version(), $this->get_plugin_root(), $this->get_plugin_url(), $this->loader );
 				}
 			}
 		}

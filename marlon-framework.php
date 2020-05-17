@@ -46,12 +46,13 @@ require_once plugin_dir_path( __FILE__ ) . 'framework/marlon.php';
 function marlon_framework() {
 	//TODO: Make modules optional via settings page
 	$modules = array(
-		//'module_template' => 'Module_Template',
-		'site_tools'       => 'Site_Tools',
-		'site_breadcrumbs' => 'Site_Breadcrumbs',
-		'post_kicker'      => 'Post_Kicker',
-		'post_subtitle'    => 'Post_Subtitle',
-		'post_utilities'   => 'Post_Utilities',
+		//'module_template'      => 'Module_Template',
+		'site_tools'            => 'Site_Tools',
+		'site_breadcrumbs'      => 'Site_Breadcrumbs',
+		'post_kicker'           => 'Post_Kicker',
+		'post_subtitle'         => 'Post_Subtitle',
+		'post_utilities'        => 'Post_Utilities',
+		'post_primary_category' => 'Post_Primary_Category',
 	);
 	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules );
 	return $framework;
