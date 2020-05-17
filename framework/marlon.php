@@ -18,7 +18,6 @@ if ( ! class_exists( 'Marlon' ) ) {
 			$this->plugin_url   = plugin_dir_url( __DIR__ );
 			$this->load_dependencies();
 			$this->load_modules( $modules );
-
 			$this->loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_scripts', 9 );
 		}
 

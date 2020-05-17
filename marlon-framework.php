@@ -24,6 +24,11 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'MARLON_FRAMEWORK_VERSION', '1.0.0' );
 
+//add_action( 'plugins_loaded', 'marlon_load_textdomain' );
+//function marlon_load_textdomain() {
+//	load_plugin_textdomain( 'marlon', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+//}
+
 function activate_marlon_framework() {
 	require_once plugin_dir_path( __FILE__ ) . 'framework/core/plugin/class-marlon-activator.php';
 	Marlon_Activator::activate();
@@ -42,9 +47,11 @@ function marlon_framework() {
 	//TODO: Make modules optional via settings page
 	$modules = array(
 		//'module_template' => 'Module_Template',
-		'post_kicker'    => 'Post_Kicker',
-		'post_subtitle'  => 'Post_Subtitle',
-		'post_utilities' => 'Post_Utilities',
+		'site_tools'       => 'Site_Tools',
+		'site_breadcrumbs' => 'Site_Breadcrumbs',
+		'post_kicker'      => 'Post_Kicker',
+		'post_subtitle'    => 'Post_Subtitle',
+		'post_utilities'   => 'Post_Utilities',
 	);
 	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules );
 	return $framework;
