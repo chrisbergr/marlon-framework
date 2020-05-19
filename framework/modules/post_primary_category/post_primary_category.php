@@ -50,30 +50,25 @@ if ( ! class_exists( 'Post_Primary_Category' ) ) {
 
 		public function save_post( $new_status, $old_status, $post ) {
 
-			$post_categories = wp_get_post_categories( $post->ID );
+			$post_categories  = wp_get_post_categories( $post->ID );
+			$primary_category = false;
 
 			if( array_key_exists( 'marlon_primary_category', $_POST ) ) {
 				$primary_category_check = $_POST['marlon_primary_category'];
-				$primary_category       = false;
-				if( isset( $primary_category_check ) ) {
-					foreach( $post_categories as $category_id ) {
-						if( (int) $category_id === (int) $primary_category_check ) {
-							$primary_category = $category_id;
-							break;
-						}
+				foreach( $post_categories as $category_id ) {
+					if( (int) $category_id === (int) $primary_category_check ) {
+						$primary_category = $category_id;
+						break;
 					}
-					if ( ! $primary_category ) {
-						$primary_category = $post_categories[0];
-					}
-				} else {
-					$primary_category = $post_categories[0];
 				}
-			} else {
-				$primary_category = $post_categories[0];
 			}
 
-			if( ! update_post_meta( $post->ID, '_primary_category', $primary_category ) ) {
-				add_post_meta( $post->ID, '_primary_category',  $primary_category, true );
+			if( $primary_category ) {
+				if( ! update_post_meta( $post->ID, '_primary_category', $primary_category ) ) {
+					add_post_meta( $post->ID, '_primary_category',  $primary_category, true );
+				}
+			} else {
+				delete_post_meta( $post->ID, '_primary_category' );
 			}
 
 		}

@@ -36,7 +36,7 @@ if ( ! class_exists( 'Post_Utilities' ) ) {
 			echo $data;
 		}
 
-		function article_in_collection() {
+		public function article_in_collection() {
 			if ( ! is_single() ) {
 				return $this->utility_print( 'itemprop="hasPart"' );
 			}
