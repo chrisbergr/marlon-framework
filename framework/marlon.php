@@ -20,6 +20,7 @@ if ( ! class_exists( 'Marlon' ) ) {
 			$this->load_dependencies();
 			$this->load_modules( $modules );
 			$this->loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_scripts', 9 );
+			$this->loader->add_action( 'admin_enqueue_scripts', $this, 'enqueue_admin_scripts', 9 );
 		}
 
 		public function enqueue_scripts() {
@@ -39,6 +40,25 @@ if ( ! class_exists( 'Marlon' ) ) {
 				'all'
 			);
 			wp_enqueue_style( 'marlon-framework' );
+		}
+
+		public function enqueue_admin_scripts() {
+			wp_register_style(
+				'marlon-framework-admin',
+				$this->get_plugin_url() . 'assets/marlon-framework-admin.min.css',
+				array(),
+				$this->get_version(),
+				'all'
+			);
+			wp_enqueue_style( 'marlon-framework-admin' );
+			wp_register_style(
+				'marlon-framework-customizer',
+				$this->get_plugin_url() . 'assets/marlon-framework-customizer.min.css',
+				array(),
+				$this->get_version(),
+				'all'
+			);
+			wp_enqueue_style( 'marlon-framework-customizer' );
 		}
 
 		function locate_template( $template_names, $load = false, $require_once = true ) {

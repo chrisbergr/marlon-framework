@@ -12,6 +12,8 @@ module.exports = function (grunt) {
 					sourceMap: true
 				},
 				files: {
+					'./assets/marlon-framework-admin.min.css': './warehouse/less/admin.less',
+					'./assets/marlon-framework-customizer.min.css': './warehouse/less/customizer.less',
 					'./assets/marlon-framework.min.css': './warehouse/less/index.less'
 				}
 			},
@@ -26,6 +28,8 @@ module.exports = function (grunt) {
 					sourceMap: false
 				},
 				files: {
+					'./assets/marlon-framework-admin.min.css': './warehouse/less/admin.less',
+					'./assets/marlon-framework-customizer.min.css': './warehouse/less/customizer.less',
 					'./assets/marlon-framework.min.css': './warehouse/less/index.less'
 				}
 			}
