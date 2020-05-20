@@ -11,4 +11,108 @@
   padding: 0;
   border-bottom: 0px;
 }
+/**/
+#marlon_dashboard_widget_note {
+  background-color: #252239;
+  border-color: #252239;
+  color: #fff;
+}
+#marlon_dashboard_widget_aside {
+  background-color: #223932;
+  border-color: #223932;
+  color: #fff;
+}
+#marlon_dashboard_widget_image {
+  background-color: #342239;
+  border-color: #342239;
+  color: #fff;
+}
+#marlon_dashboard_widget_video {
+  background-color: #393822;
+  border-color: #393822;
+  color: #fff;
+}
+#marlon_dashboard_widget_audio {
+  background-color: #2d3922;
+  border-color: #2d3922;
+  color: #fff;
+}
+#marlon_dashboard_widget_quote {
+  background-color: #392222;
+  border-color: #392222;
+  color: #fff;
+}
+#marlon_dashboard_widget_image h2,
+#marlon_dashboard_widget_video h2,
+#marlon_dashboard_widget_audio h2,
+#marlon_dashboard_widget_quote h2,
+#marlon_dashboard_widget_aside h2,
+#marlon_dashboard_widget_note h2 {
+  color: #fff !important;
+  border-bottom: 0 !important;
+}
+.marlon-admin-button-container {
+  text-align: center;
+}
+.marlon-admin-button {
+  display: inline-block;
+  margin-top: 5px;
+  background-color: #000;
+  border-radius: 5px;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.marlon-admin-button:hover,
+.marlon-admin-button:focus,
+.marlon-admin-button:active {
+  color: #fff;
+  background-color: #E7960A;
+  cursor: pointer;
+}
+.wp-admin.index-php #wpcontent {
+  background-color: #1b1f22;
+}
+.wp-admin.index-php #wpcontent h1 {
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 30px;
+}
+.wp-admin.index-php .postbox {
+  background-color: #23282d;
+  border-color: #23282d;
+  color: #fff;
+}
+.wp-admin.index-php .postbox h2 {
+  color: #fff !important;
+  border-bottom: 0;
+}
+.wp-admin.index-php .postbox h3 {
+  color: #fff !important;
+}
+.wp-admin.index-php .postbox input,
+.wp-admin.index-php .postbox textarea,
+.wp-admin.index-php .postbox li {
+  color: #fff !important;
+  background-color: transparent !important;
+}
+.wp-admin.index-php .postbox .drafts,
+.wp-admin.index-php .postbox .activity-block,
+.wp-admin.index-php .postbox .subsubsub {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+.wp-admin.index-php .notice {
+  background-color: transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  color: #fff;
+}
+/**/
 /*# sourceMappingURL=marlon-framework-admin.min.css.map */
