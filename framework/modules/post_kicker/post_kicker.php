@@ -146,7 +146,6 @@ if ( ! class_exists( 'Post_Kicker' ) ) {
 				return $post_id;
 			}
 			update_post_meta( $post_id, 'wpk_kicker', $_POST[ 'marlon_kicker' ] );
-			update_post_meta( $post_id, 'wpk_kicker', $_POST[ 'marlon_kicker' ] );
 			return $post_id;
 		}
 

@@ -146,7 +146,6 @@ if ( ! class_exists( 'Post_Subtitle' ) ) {
 				return $post_id;
 			}
 			update_post_meta( $post_id, 'wps_subtitle', $_POST[ 'marlon_subtitle' ] );
-			update_post_meta( $post_id, 'wps_subtitle', $_POST[ 'marlon_subtitle' ] );
 			return $post_id;
 		}
 

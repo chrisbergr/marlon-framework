@@ -53,6 +53,7 @@ function marlon_framework() {
 		'post_subtitle'         => 'Post_Subtitle',
 		'post_utilities'        => 'Post_Utilities',
 		'post_primary_category' => 'Post_Primary_Category',
+		'post_layout'           => 'Post_Layout',
 		'theme_settings'        => 'Theme_Settings',
 	);
 	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules );

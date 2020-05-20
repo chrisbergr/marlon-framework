@@ -57,5 +57,48 @@ if ( ! class_exists( 'Marlon_Utilities' ) ) {
 			return $this->plugin_url;
 		}
 
+		public function get_post_count_by_tax_term( $term, $taxonomy, $type = 'post' ) {
+			$args = array (
+				'fields'         =>'ids',
+				'posts_per_page' => -1,
+				'post_status'    => 'publish',
+				'post_type'      => $type,
+				'tax_query'      => array (
+					array (
+						'taxonomy' => $taxonomy,
+						'field'    => 'slug',
+						'terms'    => $term,
+					),
+				),
+			);
+			if ( $posts = get_posts( $args ) ) {
+				return count( $posts );
+			}
+			return 0;
+		}
+
+		public function get_post_count_by_post_format( $format ) {
+			return $this->get_post_count_by_tax_term( 'post-format-' . $format, 'post_format' );
+		}
+
+		public function get_post_format_status_count() {
+			return $this->get_post_count_by_post_format( 'status' );
+		}
+		public function get_post_format_aside_count() {
+			return $this->get_post_count_by_post_format( 'aside' );
+		}
+		public function get_post_format_image_count() {
+			return $this->get_post_count_by_post_format( 'image' );
+		}
+		public function get_post_format_video_count() {
+			return $this->get_post_count_by_post_format( 'video' );
+		}
+		public function get_post_format_audio_count() {
+			return $this->get_post_count_by_post_format( 'audio' );
+		}
+		public function get_post_format_quote_count() {
+			return $this->get_post_count_by_post_format( 'quote' );
+		}
+
 	}
 }
