@@ -15,33 +15,41 @@
 #marlon_dashboard_widget_note {
   background-color: #252239;
   border-color: #252239;
-  color: #fff;
 }
 #marlon_dashboard_widget_aside {
   background-color: #223932;
   border-color: #223932;
-  color: #fff;
 }
 #marlon_dashboard_widget_image {
   background-color: #342239;
   border-color: #342239;
-  color: #fff;
 }
 #marlon_dashboard_widget_video {
   background-color: #393822;
   border-color: #393822;
-  color: #fff;
 }
 #marlon_dashboard_widget_audio {
   background-color: #2d3922;
   border-color: #2d3922;
-  color: #fff;
 }
 #marlon_dashboard_widget_quote {
   background-color: #392222;
   border-color: #392222;
+}
+#marlon_dashboard_widget_gallery {
+  background-color: #352239;
+  border-color: #352239;
+}
+#marlon_dashboard_widget_gallery,
+#marlon_dashboard_widget_image,
+#marlon_dashboard_widget_video,
+#marlon_dashboard_widget_audio,
+#marlon_dashboard_widget_quote,
+#marlon_dashboard_widget_aside,
+#marlon_dashboard_widget_note {
   color: #fff;
 }
+#marlon_dashboard_widget_gallery h2,
 #marlon_dashboard_widget_image h2,
 #marlon_dashboard_widget_video h2,
 #marlon_dashboard_widget_audio h2,

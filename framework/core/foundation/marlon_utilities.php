@@ -99,6 +99,9 @@ if ( ! class_exists( 'Marlon_Utilities' ) ) {
 		public function get_post_format_quote_count() {
 			return $this->get_post_count_by_post_format( 'quote' );
 		}
+		public function get_post_format_gallery_count() {
+			return $this->get_post_count_by_post_format( 'gallery' );
+		}
 
 	}
 }

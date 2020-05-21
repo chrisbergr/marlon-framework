@@ -23,42 +23,46 @@
 #marlon_dashboard_widget_note{
 	background-color: rgb(37, 34, 57);
 	border-color: rgb(37, 34, 57);
-	color: #fff;
 }
 #marlon_dashboard_widget_aside{
 	background-color: rgb(34, 57, 50);
 	border-color: rgb(34, 57, 50);
-	color: #fff;
 }
 #marlon_dashboard_widget_image{
 	background-color: rgb(52, 34, 57);
 	border-color: rgb(52, 34, 57);
-	color: #fff;
 }
 #marlon_dashboard_widget_video{
 	background-color: rgb(57, 56, 34);
 	border-color: rgb(57, 56, 34);
-	color: #fff;
 }
 #marlon_dashboard_widget_audio{
 	background-color: rgb(45, 57, 34);
 	border-color: rgb(45, 57, 34);
-	color: #fff;
 }
 #marlon_dashboard_widget_quote{
 	background-color: rgb(57, 34, 34);
 	border-color: rgb(57, 34, 34);
+}
+#marlon_dashboard_widget_gallery{
+	background-color: rgb(53, 34, 57);
+	border-color: rgb(53, 34, 57);
+}
+
+#marlon_dashboard_widget_gallery,
+#marlon_dashboard_widget_image,
+#marlon_dashboard_widget_video,
+#marlon_dashboard_widget_audio,
+#marlon_dashboard_widget_quote,
+#marlon_dashboard_widget_aside,
+#marlon_dashboard_widget_note{
 	color: #fff;
+	h2{
+		color: #fff !important;
+		border-bottom: 0 !important;
+	}
 }
-#marlon_dashboard_widget_image h2,
-#marlon_dashboard_widget_video h2,
-#marlon_dashboard_widget_audio h2,
-#marlon_dashboard_widget_quote h2,
-#marlon_dashboard_widget_aside h2,
-#marlon_dashboard_widget_note h2{
-	color: #fff !important;
-	border-bottom: 0 !important;
-}
+
 .marlon-admin-button-container{
 	text-align: center;
 }
@@ -75,52 +79,56 @@
 	font-size: 16px;
 	text-transform: uppercase;
 	font-weight: bold;
+	&:hover,
+	&:focus,
+	&:active{
+		color: #fff;
+		background-color: #E7960A;
+		cursor: pointer;
+	}
 }
-.marlon-admin-button:hover,
-.marlon-admin-button:focus,
-.marlon-admin-button:active{
-	color: #fff;
-	background-color: #E7960A;
-	cursor: pointer;
+
+.wp-admin.index-php{
+	#wpcontent{
+		background-color: rgb(27, 31, 34);
+		h1{
+			color: #fff;
+			text-transform: uppercase;
+			font-size: 30px;
+		}
+	}
+	.postbox {
+		background-color: #23282d;
+		border-color: #23282d;
+		color: #fff;
+		h2{
+			color: #fff !important;
+			border-bottom: 0;
+		}
+		h3{
+			color: #fff !important;
+		}
+		input,
+		textarea,
+		li{
+			color: #fff !important;
+			background-color: transparent !important;
+		}
+		.drafts,
+		.activity-block,
+		.subsubsub{
+			border-top: none !important;
+			border-bottom: none !important;
+		}
+	}
+	.notice{
+		background-color: transparent;
+		border-top-color: transparent;
+		border-bottom-color: transparent;
+		border-right-color: transparent;
+		color: #fff;
+	}
 }
-.wp-admin.index-php #wpcontent{
-	background-color: rgb(27, 31, 34);
-}
-.wp-admin.index-php #wpcontent h1{
-	color: #fff;
-	text-transform: uppercase;
-	font-size: 30px;
-}
-.wp-admin.index-php .postbox {
-	background-color: #23282d;
-	border-color: #23282d;
-	color: #fff;
-}
-.wp-admin.index-php .postbox h2{
-	color: #fff !important;
-	border-bottom: 0;
-}
-.wp-admin.index-php .postbox h3{
-	color: #fff !important;
-}
-.wp-admin.index-php .postbox input,
-.wp-admin.index-php .postbox textarea,
-.wp-admin.index-php .postbox li{
-	color: #fff !important;
-	background-color: transparent !important;
-}
-.wp-admin.index-php .postbox .drafts,
-.wp-admin.index-php .postbox .activity-block,
-.wp-admin.index-php .postbox .subsubsub{
-	border-top: none !important;
-	border-bottom: none !important;
-}
-.wp-admin.index-php .notice{
-	background-color: transparent;
-	border-top-color: transparent;
-	border-bottom-color: transparent;
-	border-right-color: transparent;
-	color: #fff;
-}
+
 
 /**/

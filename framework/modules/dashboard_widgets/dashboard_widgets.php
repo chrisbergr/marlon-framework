@@ -21,12 +21,13 @@ if ( ! class_exists( 'Dashboard_Widgets' ) ) {
 
 		public function add_dashboard_widgets() {
 
-			$status_count = $this->get_post_format_status_count();
-			$aside_count  = $this->get_post_format_aside_count();
-			$image_count  = $this->get_post_format_image_count();
-			$video_count  = $this->get_post_format_video_count();
-			$audio_count  = $this->get_post_format_audio_count();
-			$quote_count  = $this->get_post_format_quote_count();
+			$status_count  = $this->get_post_format_status_count();
+			$aside_count   = $this->get_post_format_aside_count();
+			$image_count   = $this->get_post_format_image_count();
+			$video_count   = $this->get_post_format_video_count();
+			$audio_count   = $this->get_post_format_audio_count();
+			$quote_count   = $this->get_post_format_quote_count();
+			$gallery_count = $this->get_post_format_gallery_count();
 
 			wp_add_dashboard_widget(
 				'marlon_dashboard_widget_note',
@@ -62,6 +63,12 @@ if ( ! class_exists( 'Dashboard_Widgets' ) ) {
 				'marlon_dashboard_widget_quote',
 				sprintf( _n( '%d Quote', '%d Quotes', $quote_count, 'marlon' ), $quote_count ),
 				array ( $this, 'dashboard_widget_quote' )
+			);
+
+			wp_add_dashboard_widget(
+				'marlon_dashboard_widget_gallery',
+				sprintf( _n( '%d Multi-Image', '%d Multi-Images', $gallery_count, 'marlon' ), $gallery_count ),
+				array ( $this, 'dashboard_widget_gallery' )
 			);
 
 		}
@@ -103,6 +110,13 @@ if ( ! class_exists( 'Dashboard_Widgets' ) ) {
 	function dashboard_widget_quote() {
 		?>
 		<p class="marlon-admin-button-container"><a href="./post-new.php?classic-editor&classic-editor__forget&set_post_format=quote" class="marlon-admin-button"><?php _e( 'Create new Quote', 'marlon' ); ?></a></p>
+		<p>&nbsp;</p>
+		<?php
+	}
+
+	function dashboard_widget_gallery() {
+		?>
+		<p class="marlon-admin-button-container"><a href="./post-new.php?classic-editor&classic-editor__forget&set_post_format=gallery" class="marlon-admin-button"><?php _e( 'Create new Multi-Image Post', 'marlon' ); ?></a></p>
 		<p>&nbsp;</p>
 		<?php
 	}
