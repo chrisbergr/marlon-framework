@@ -56,6 +56,7 @@ function marlon_framework() {
 		'post_layout'           => 'Post_Layout',
 		'theme_settings'        => 'Theme_Settings',
 		'dashboard_widgets'     => 'Dashboard_Widgets',
+		'marlon_shortcodes'     => 'Marlon_Shortcodes',
 	);
 	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules );
 	return $framework;
