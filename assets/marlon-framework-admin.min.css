@@ -6,6 +6,32 @@
   display: block;
   padding: 0.5em;
 }
+.marlon-metabox-table {
+  border-collapse: collapse;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+.marlon-metabox-table tr {
+  position: relative;
+  transform: scale(1);
+  border-bottom: #ddd 1px dotted;
+  background-color: #fafafa;
+}
+.marlon-metabox-table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.marlon-metabox-table .description {
+  margin-bottom: 0;
+  padding-left: 10px;
+  font-style: italic;
+  font-size: 0.9em;
+}
+.marlon-metabox-table img {
+  max-width: 100%;
+}
 #marlon_post_layout .inside {
   margin: 0;
   padding: 0;

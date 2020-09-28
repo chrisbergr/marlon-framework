@@ -120,7 +120,7 @@ if ( ! class_exists( 'Site_Breadcrumbs' ) ) {
 
 		private function receive_data_by_slug( $slug ) {
 			$type = 'post';
-			$data = get_page_by_path( $slug, OBJECT, array( 'post', 'page', 'product' ) );
+			$data = get_page_by_path( $slug, OBJECT, array( 'post', 'page', 'product', 'pins' ) );
 			if ( ! $data ) {
 				$type = 'taxonomy';
 				foreach ( get_taxonomies( array( 'public' => true ) ) as $key => $value ) {
@@ -131,8 +131,12 @@ if ( ! class_exists( 'Site_Breadcrumbs' ) ) {
 				}
 			}
 			if ( ! $data ) {
+				$type = 'custom_post_type';
+				$data = get_post_type_object( $slug );
+			}
+			if ( ! $data ) {
 				if ( strpos( $slug, '/' ) !== false ) {
-	    			$new_slug = ltrim( strstr( $slug, '/' ), '/' );
+					$new_slug = ltrim( strstr( $slug, '/' ), '/' );
 					return $this->receive_data_by_slug( $new_slug );
 				}
 				return false;
@@ -173,9 +177,15 @@ if ( ! class_exists( 'Site_Breadcrumbs' ) ) {
 					if ( $data ) {
 						if ( $data['type'] === 'post' ) {
 							$item_title = $data['data']->post_title;
+							//$item_url = get_permalink( $data['data']->ID );
 						}
 						if ( $data['type'] === 'taxonomy' ) {
 							$item_title = $data['data']->name;
+							$item_url = get_term_link( $data['data']->term_id );
+						}
+						if ( $data['type'] === 'custom_post_type' ) {
+							$item_title = $data['data']->label;
+							//$item_url = get_term_link( $data['data']->term_id );
 						}
 						if ( ! $item_title || $item_title === '' ) {
 							$item_title = $data['data']->ID;
@@ -195,6 +205,7 @@ if ( ! class_exists( 'Site_Breadcrumbs' ) ) {
 				$this->items[] = $item;
 				$count++;
 			}
+			//die();
 		}
 
 		private function get_html_items() {

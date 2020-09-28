@@ -24,6 +24,8 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'MARLON_FRAMEWORK_VERSION', '1.0.0' );
 
+// 168 - 229 - 241
+
 //add_action( 'plugins_loaded', 'marlon_load_textdomain' );
 //function marlon_load_textdomain() {
 //	load_plugin_textdomain( 'marlon', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
@@ -58,7 +60,10 @@ function marlon_framework() {
 		'dashboard_widgets'     => 'Dashboard_Widgets',
 		'marlon_shortcodes'     => 'Marlon_Shortcodes',
 	);
-	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules );
+	$post_types = array(
+		'post_type_pin' => 'Post_Type_Pin',
+	);
+	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules, $post_types );
 	return $framework;
 }
 

@@ -9,16 +9,18 @@ if ( ! class_exists( 'Marlon' ) ) {
 		private $plugin_url      = '';
 		protected $loader        = null;
 		private $modules         = array();
+		private $post_types      = array();
 
 		private function __clone() {}
 		private function __wakeup() {}
 
-		public function __construct( $version, $root, $modules = array() ) {
+		public function __construct( $version, $root, $modules = array(), $post_types = array() ) {
 			$this->core_version = $version;
 			$this->plugin_root  = $root;
 			$this->plugin_url   = plugin_dir_url( __DIR__ );
 			$this->load_dependencies();
 			$this->load_modules( $modules );
+			$this->load_post_types( $post_types );
 			$this->loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_scripts', 9 );
 			$this->loader->add_action( 'admin_enqueue_scripts', $this, 'enqueue_admin_scripts', 9 );
 		}
@@ -103,6 +105,7 @@ if ( ! class_exists( 'Marlon' ) ) {
 			require_once $this->get_plugin_root() . 'framework/core/foundation/marlon_loader.php';
 			require_once $this->get_plugin_root() . 'framework/core/foundation/marlon_utilities.php';
 			require_once $this->get_plugin_root() . 'framework/core/foundation/marlon_module.php';
+			require_once $this->get_plugin_root() . 'framework/core/foundation/marlon_post_type.php';
 			$this->loader = new Marlon_Loader();
 		}
 
@@ -138,6 +141,38 @@ if ( ! class_exists( 'Marlon' ) ) {
 			return array_key_exists( $module, $this->modules );
 		}
 
+		private function load_post_types( $post_types ) {
+			foreach ( $post_types as $post_type => $name ) {
+				$loading_post_type = $this->load_post_type( $post_type );
+				if ( $loading_post_type ) {
+					$this->post_types[$post_type] = new $name( $this->get_version(), $this->get_plugin_root(), $this->get_plugin_url(), $this->loader );
+				}
+			}
+		}
+
+		private function load_post_type( $post_type ) {
+			if ( $this->has_post_type( $post_type ) ) {
+				return false;
+			}
+			$post_type_file = $this->get_plugin_root() . 'framework/post-types/' . $post_type . '/' . $post_type . '.php';
+			if ( ! file_exists( $post_type_file ) ) {
+				return false;
+			}
+			require_once $post_type_file;
+			return true;
+		}
+
+		public function get_post_type( $post_type ) {
+			if ( $this->has_post_type( $post_type ) ) {
+				return $this->post_types[$post_type];
+			}
+			return false;
+		}
+
+		public function has_post_type( $post_type ) {
+			return array_key_exists( $post_type, $this->post_types );
+		}
+
 		public function get_version() {
 			return $this->core_version;
 		}
@@ -152,9 +187,9 @@ if ( ! class_exists( 'Marlon' ) ) {
 			return $this->loader->run();
 		}
 
-		public static function get_instance( $version, $root, $modules = array() ) {
+		public static function get_instance( $version, $root, $modules = array(), $post_types = array() ) {
 			if ( null === self::$instance ) {
-				self::$instance = new self( $version, $root, $modules );
+				self::$instance = new self( $version, $root, $modules, $post_types );
 			}
 			return self::$instance;
 		}
