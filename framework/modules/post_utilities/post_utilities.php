@@ -752,5 +752,269 @@ if ( ! class_exists( 'Post_Utilities' ) ) {
 			return $this->utility_print( $this->get_the_content_without_first_gallery( get_the_ID() ), $echo );
 		}
 
+		/* Post Kinds Support */
+
+		private function get_context_author_vcard( $args = '', $post_id = false ) {
+
+			$this->setup_module( $post_id );
+
+			$args = wp_parse_args(
+				$args,
+				array(
+					'before' => '',
+					'after'  => '',
+				)
+			);
+
+			$author = $this->get_postkinds_data_property( 'author', $this->post_id );
+
+			$author_name   = null;
+			$author_url    = null;
+			$author_imgsrc = null;
+			if( isset( $author['name'] ) ) {
+				$author_name = $author['name'];
+			}
+			if( isset( $author['url'] ) ) {
+				$author_url = $author['url'];
+			}
+			if( isset( $author['photo'] ) ) {
+				$author_imgsrc = $author['photo'];
+			}
+
+			$author_vcard = $this->build_author_vcard( array(
+				'name'      => $author_name,
+				'url'       => $author_url,
+				'image_src' => $author_imgsrc,
+				'image'     => null,
+				'class'     => 'response-author',
+			) );
+
+
+			if( strlen( $author_vcard ) == 0 ) {
+				return;
+			}
+
+			$author = apply_filters( 'marlon_context_author_vcard', $author_vcard, $this->post );
+			$author = $args['before'] . $author . $args['after'];
+
+			return $author;
+
+		}
+		public function get_the_context_author_vcard( $before = '', $after = '', $post_id = false ) {
+			return $this->utility_get(
+				$this->get_context_author_vcard(
+					array(
+						'before' => $before,
+						'after'  => $after,
+					),
+					$post_id
+				)
+			);
+		}
+		public function the_context_author_vcard( $before = '', $after = '', $echo = true ) {
+			return $this->utility_print( $this->get_the_context_author_vcard( $before, $after, get_the_ID() ), $echo );
+		}
+
+		private function get_context_date( $args = '', $post_id = false ) {
+
+				$this->setup_module( $post_id );
+
+				$args = wp_parse_args(
+					$args,
+					array(
+						'before'         => '',
+						'after'          => '',
+						'class'          => null,
+						'human_readable' => false,
+					)
+				);
+
+				$published_data = $this->get_postkinds_data_property( 'published', $this->post_id );
+
+				if( strlen( $published_data ) == 0 ) {
+					return;
+				}
+
+				$date_string = '<time class="published dt-published%3$s" datetime="%1$s">%2$s</time>';
+				$date_string = apply_filters( 'marlon_context_date_html', $date_string );
+
+				$date_class = '';
+				if ( $args['class'] ) {
+					$date_class = ' ' . $args['class'];
+				}
+				$date_class = apply_filters( 'marlon_context_date_class', $date_class );
+
+				if ( $args['human_readable'] ) {
+					$post_date = sprintf(
+						$date_string,
+						esc_attr( date( 'c', strtotime( $published_data ) ) ),
+						sprintf(
+							/* translators: %s = human-readable time difference */
+							esc_html__( '%s ago', 'marlon' ),
+							human_time_diff( date( 'U', strtotime( $published_data ) ), current_time( 'timestamp' ) )
+						),
+						$date_class
+					);
+				} else {
+					$post_date = sprintf(
+						$date_string,
+						esc_attr( date( 'c', strtotime( $published_data ) ) ),
+						esc_attr( date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $published_data ) ) ),
+						$date_class
+					);
+				}
+
+				$post_date = apply_filters( 'marlon_post_date', $post_date, $this->post );
+				$post_date = $args['before'] . $post_date . $args['after'];
+
+				return $post_date;
+
+		}
+		public function get_the_context_date( $before = '', $after = '', $class = '', $human = false, $post_id = false ) {
+			return $this->utility_get(
+				$this->get_context_date(
+					array(
+						'before'         => $before,
+						'after'          => $after,
+						'class'          => $class,
+						'human_readable' => $human,
+					),
+					$post_id
+				)
+			);
+		}
+		public function the_context_date( $before = '', $after = '', $class = '', $human = false, $echo = true ) {
+			return $this->utility_print( $this->get_the_context_date( $before, $after, $class, $human, get_the_ID() ), $echo );
+		}
+
+		private function get_context_permalink_date( $args = '', $post_id = false ) {
+
+			$this->setup_module( $post_id );
+
+			$args = wp_parse_args(
+				$args,
+				array(
+					'before'         => '',
+					'after'          => '',
+					'human_readable' => false,
+				)
+			);
+
+			$url = $this->get_postkinds_data_property( 'url', get_the_id() );
+			$date = $this->get_context_date( array( 'human_readable' => $args['human_readable'] ) );
+
+			if( ( strlen( $url ) == 0 ) || ( strlen( $date ) == 0 ) ) {
+				return;
+			}
+
+			$permalink_tpl = '<span class="response-date"><a href="%1$s" class="url u-url">%2$s</a></span>';
+			$permalink_tpl = apply_filters( 'marlon_context_permalink_date_html', $permalink_tpl );
+
+			$permalink = sprintf(
+				$permalink_tpl,
+				esc_url( $url ),
+				$date
+			);
+
+			$permalink = apply_filters( 'marlon_context_permalink_date', $permalink, $this->post );
+			$permalink = $args['before'] . $permalink . $args['after'];
+
+			return $permalink;
+
+		}
+		public function get_the_context_permalink_date( $before = '', $after = '', $human = false, $post_id = false ) {
+			return $this->utility_get(
+				$this->get_context_permalink_date(
+					array(
+						'before'         => $before,
+						'after'          => $after,
+						'human_readable' => $human,
+					),
+					$post_id
+				)
+			);
+		}
+		public function the_context_permalink_date( $before = '', $after = '', $human = false, $echo = true ) {
+			return $this->utility_print( $this->get_the_context_permalink_date( $before, $after, $human, get_the_ID() ), $echo );
+		}
+
+		private function get_context_title( $args = '', $post_id = false ) {
+
+			$this->setup_module( $post_id );
+
+			$args = wp_parse_args(
+				$args,
+				array(
+					'before'         => '',
+					'after'          => '',
+				)
+			);
+
+			$title = $this->get_postkinds_data_property( 'name', $this->post_id );
+
+			if( ( strlen( $title ) == 0 ) ) {
+				return;
+			}
+
+			$title = apply_filters( 'marlon_context_title', $title, $this->post );
+			$title = $args['before'] . $title . $args['after'];
+
+			return $title;
+
+		}
+		public function get_the_context_title( $before = '', $after = '', $post_id = false ) {
+			return $this->utility_get(
+				$this->get_context_title(
+					array(
+						'before'         => $before,
+						'after'          => $after,
+					),
+					$post_id
+				)
+			);
+		}
+		public function the_context_title( $before = '', $after = '', $echo = true ) {
+			return $this->utility_print( $this->get_the_context_title( $before, $after, get_the_ID() ), $echo );
+		}
+
+		private function get_context_content( $args = '', $post_id = false ) {
+
+			$this->setup_module( $post_id );
+
+			$args = wp_parse_args(
+				$args,
+				array(
+					'before'         => '',
+					'after'          => '',
+				)
+			);
+
+			$content = $this->get_postkinds_data_property( 'summary', $this->post_id );
+
+			if( ( strlen( $content ) == 0 ) ) {
+				return;
+			}
+
+			$content = apply_filters( 'marlon_context_content', $content, $this->post );
+			$content = $args['before'] . $content . $args['after'];
+
+			return $content;
+
+		}
+		public function get_the_context_content( $before = '', $after = '', $post_id = false ) {
+			return $this->utility_get(
+				$this->get_context_content(
+					array(
+						'before'         => $before,
+						'after'          => $after,
+					),
+					$post_id
+				)
+			);
+		}
+		public function the_context_content( $before = '', $after = '', $echo = true ) {
+			return $this->utility_print( $this->get_the_context_content( $before, $after, get_the_ID() ), $echo );
+		}
+
 	}
 }

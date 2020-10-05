@@ -103,5 +103,90 @@ if ( ! class_exists( 'Marlon_Utilities' ) ) {
 			return $this->get_post_count_by_post_format( 'gallery' );
 		}
 
+		/* Post Kinds Support */
+
+		public function get_postkinds_data( $key = false, $id = false) {
+			$return = '';
+			if( ! $key || ! $id ) {
+				return $return;
+			}
+			$kindsdata = get_post_meta( get_the_id(), 'mf2_in-reply-to', true );
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_repost-of', true );
+			}
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_bookmark-of', true );
+			}
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_favorite-of', true );
+			}
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_like-of', true );
+			}
+			$kindsdata = maybe_unserialize( $kindsdata );
+
+			if( isset( $kindsdata[$key] ) ) {
+				$return = $kindsdata[$key];
+			}
+
+			return $return;
+		}
+
+		public function get_postkinds_data_type( $id = false ) {
+			return $this->get_postkinds_data( 'type', $id )[0];
+		}
+
+		public function get_postkinds_data_properties( $id = false ) {
+			return $this->get_postkinds_data( 'properties', $id );
+		}
+
+		public function get_postkinds_data_property( $key = false, $id = false ) {
+			$return = '';
+			if( ! $key || ! $id ) {
+				return $return;
+			}
+			$properties = $this->get_postkinds_data_properties( $id );
+			if( '' !== $properties && isset( $properties[$key] ) && ( isset( $properties[$key][0] ) || isset( $properties[$key]['properties'] ) ) ) {
+				if( 'author' === $key ) {
+					$author_data = array_map( 'current', $properties[$key]['properties'] );
+					$return = $author_data;
+				} else {
+					$return = $properties[$key][0];
+				}
+			}
+			return $return;
+		}
+
+		public function get_postkinds_data_debug( $id = false) {
+			//print_r(get_post_meta( get_the_id() ) );
+			$kindsdata = get_post_meta( get_the_id(), 'mf2_in-reply-to', true );
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_repost-of', true );
+			}
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_bookmark-of', true );
+			}
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_favorite-of', true );
+			}
+			if( '' === $kindsdata ) {
+				$kindsdata = get_post_meta( get_the_id(), 'mf2_like-of', true );
+			}
+			$kindsdata = maybe_unserialize( $kindsdata );
+			//print_r($kindsdata);
+			echo '<dl><dt>type</dt><dd>' . $this->get_postkinds_data_type( $id ) . '</dd></dl>';
+			/**/
+			$properties = $this->get_postkinds_data_properties( $id );
+			//print_r($properties);
+			echo '<dl>';
+			foreach ($properties as $the_key => $value) {
+				echo '<dt>' . $the_key . '</dt>';
+				echo '<dd>' . $this->get_postkinds_data_property( $the_key, $id ) . '</dd>';
+			}
+			echo '</dl>';
+			//print_r($this->get_postkinds_data_property( 'author', $id ));
+			/**/
+		}
+
 	}
 }

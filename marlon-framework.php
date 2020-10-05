@@ -74,6 +74,6 @@ function third_party_kind_view_paths( $path_list ) {
 	array_unshift( $path_list, plugin_dir_path( __FILE__ ) . 'framework/templates/third-party/kind-views/' );
 	return $path_list;
 }
-add_filter( 'kind_view_paths', 'third_party_kind_view_paths' );
+//add_filter( 'kind_view_paths', 'third_party_kind_view_paths' );
 
 //print_r( '<!-- Marlon v' . marlon_framework()->get_version() . ' -->' );
