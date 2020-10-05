@@ -2,9 +2,12 @@
 if( ! $utils = marlon_framework()->get_module( 'post_utilities' ) ) {
 	return;
 }
-$bookmark       = get_post_meta( get_the_id(), 'pins-bookmark', true );
-$bookmark_label = parse_url( $bookmark )['host'];
-$description    = get_post_meta( get_the_id(), 'pins-description', true );
+$bookmark    = get_post_meta( get_the_id(), 'pins-bookmark', true );
+$description = get_post_meta( get_the_id(), 'pins-description', true );
+
+if( '' !== $bookmark ) {
+	$bookmark_label = parse_url( $bookmark )['host'];
+}
 ?>
 
 <div class="entry-content e-content p-summary" itemprop="articleBody">

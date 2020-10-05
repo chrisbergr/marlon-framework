@@ -68,6 +68,7 @@ if( ! class_exists( 'Marlon_Post_Types' ) ) {
 		protected function activate_post_type() {
 			$this->loader->add_action( 'init', $this, 'register_custom_post_type', 0 );
 			$this->loader->add_action( 'init', $this, 'register_custom_post_taxonomy', 0 );
+			$this->loader->add_filter( 'generate_rewrite_rules', $this, 'register_custom_post_taxonomy_rewrite_rules' );
 			// die anderen sachen
 
 			$this->loader->add_action( 'pre_get_posts', $this, 'pre_get_posts', 10 );
@@ -140,6 +141,10 @@ if( ! class_exists( 'Marlon_Post_Types' ) ) {
 		}
 
 		public function register_custom_post_taxonomy() {
+			//NOTE: overwrite in post type
+		}
+
+		public function register_custom_post_taxonomy_rewrite_rules( $wp_rewrite ) {
 			//NOTE: overwrite in post type
 		}
 

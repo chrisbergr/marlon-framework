@@ -28,16 +28,24 @@ if( ! $utils = marlon_framework()->get_module( 'post_utilities' ) ) {
 		</div>
 		<div class="content-card-col">
 
-			<?php $utils->get_marlon_template( 'entry-header', $post_type_slug ); ?>
+			<?php if( is_singular() ) : ?>
 
-			<?php $utils->get_marlon_template( 'entry-content', $post_type_slug ); ?>
+				<?php $utils->get_marlon_template( 'entry-header', $post_type_slug ); ?>
 
-			<?php $utils->get_marlon_template( 'entry-footer', $post_type_slug ); ?>
+				<?php $utils->get_marlon_template( 'entry-content', $post_type_slug ); ?>
+
+				<?php $utils->get_marlon_template( 'entry-footer', $post_type_slug ); ?>
+
+			<?php endif; ?>
 
 		</div>
 
 	</div><!-- .content-card -->
 
-	<?php $utils->get_marlon_template( 'entry-comments', $post_type_slug ); ?>
+	<?php if( is_singular() ) : ?>
+
+		<?php $utils->get_marlon_template( 'entry-comments', $post_type_slug ); ?>
+
+	<?php endif; ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

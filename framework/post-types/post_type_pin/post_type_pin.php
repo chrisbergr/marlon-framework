@@ -48,6 +48,7 @@ if ( ! class_exists( 'Post_Type_Pin' ) ) {
 				'description'          => '',
 				'public'               => true,
 				'hierarchical'         => false,
+				'taxonomies'           => array( $this->get_setting( 'slug' ) . '-tags' ),
 				'exclude_from_search'  => false,
 				'publicly_queryable'   => true,
 				'show_ui'              => true,
@@ -100,11 +101,33 @@ if ( ! class_exists( 'Post_Type_Pin' ) ) {
 				'show_in_rest'          => true,
 				'update_count_callback' => '_update_post_term_count',
 				'query_var'             => true,
-				'rewrite'               => array( 'textdomain' => $this->get_setting( 'slug' ) . '/tags', 'with_front' => true ),
+				//'rewrite'               => array( 'slug' => $this->get_setting( 'slug' ) . '/tags', 'with_front' => true ),
+				'rewrite'               => array( 'slug' => $this->get_setting( 'slug' ) ),
 			);
 
 			register_taxonomy( $this->get_setting( 'slug' ) . '-tags', $this->get_setting( 'slug' ), $args );
 
+		}
+
+		public function register_custom_post_taxonomy_rewrite_rules( $wp_rewrite ) {
+			$rules = array();
+		    $post_types = get_post_types( array( 'name' => $this->get_setting( 'slug' ), 'public' => true, '_builtin' => false ), 'objects' );
+		    $taxonomies = get_taxonomies( array( 'name' => $this->get_setting( 'slug' ) . '-tags', 'public' => true, '_builtin' => false ), 'objects' );
+
+		    foreach ( $post_types as $post_type ) {
+		      $post_type_name = $post_type->name; // 'developer'
+		      $post_type_slug = $post_type->rewrite['slug']; // 'developers'
+
+		      foreach ( $taxonomies as $taxonomy ) {
+		        if ( $taxonomy->object_type[0] == $post_type_name ) {
+		          $terms = get_categories( array( 'type' => $post_type_name, 'taxonomy' => $taxonomy->name, 'hide_empty' => 0 ) );
+		          foreach ( $terms as $term ) {
+		            $rules[$post_type_slug . '/' . $term->slug . '/?$'] = 'index.php?' . $term->taxonomy . '=' . $term->slug;
+		          }
+		        }
+		      }
+		    }
+		    $wp_rewrite->rules = $rules + $wp_rewrite->rules;
 		}
 
 		protected function unsupportet_by_theme() {
