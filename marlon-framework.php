@@ -59,6 +59,7 @@ function marlon_framework() {
 		'theme_settings'        => 'Theme_Settings',
 		'dashboard_widgets'     => 'Dashboard_Widgets',
 		'marlon_shortcodes'     => 'Marlon_Shortcodes',
+		'remove_category_base'  => 'Remove_Category_Base',
 	);
 	$post_types = array(
 		'post_type_pin' => 'Post_Type_Pin',
