@@ -5,12 +5,33 @@ if ( ! class_exists( 'Marlon_Shortcodes' ) ) {
 
 		protected function init_module() {
 			$this->loader->add_action( 'init', $this, 'add_module_shortcodes', 11 );
+			$this->loader->add_action( 'wp_enqueue_scripts', $this, 'shortcode_scripts' );
+			$this->loader->add_action( 'wp_footer', $this, 'shortcode_script', 70 );
+		}
+
+		public function shortcode_scripts() {
+			wp_enqueue_script( 'marlon-masonry', plugins_url( '/masonry.min.js', __FILE__ ), array(), false, true );
+		}
+		public function shortcode_script() {
+			?>
+			<script type="text/javascript">
+				jQuery(function() {
+					var cardsgridsettings = {
+						columnWidth: ".grid-sizer",
+						itemSelector: ".river-item"
+					};
+					$cardsgrid = jQuery(".river").masonry(cardsgridsettings);
+					$cardsgrid.masonry("layout");
+				});
+			</script>
+			<?php
 		}
 
 		public function add_module_shortcodes() {
 			add_shortcode( 'marlon-recent-posts', array( $this, 'recent_posts' ) );
 			add_shortcode( 'marlon-recent-post', array( $this, 'recent_post' ) );
 			add_shortcode( 'marlon-recent-post-image', array( $this, 'recent_post_image' ) );
+			add_shortcode( 'marlon-posts-river', array( $this, 'posts_river' ) );
 		}
 
 		public function recent_posts( $atts = array() ) {
@@ -173,6 +194,103 @@ if ( ! class_exists( 'Marlon_Shortcodes' ) ) {
 					<?php wp_reset_postdata(); ?>
 				<?php endwhile; ?>
 			<?php endif; ?>
+
+			<?php
+			return ob_get_clean();
+
+		}
+
+
+		public function posts_river( $atts = array() ) {
+
+			extract(
+				shortcode_atts(
+					array(
+						'category' => 'uncategorized',
+						'offset'   => 0,
+						'limit'    => 50,
+						'cover'    => true,
+					),
+					$atts
+				)
+			);
+
+			$utils = marlon_framework()->get_module( 'post_utilities' );
+			$kicker = marlon_framework()->get_module( 'post_kicker' );
+			$subtitle = marlon_framework()->get_module( 'post_subtitle' );
+
+			ob_start();
+			?>
+
+			<div class="marlon-posts-river">
+				<ul class="river">
+
+					<?php
+						if( $cover ) {
+							//TODO: Check other categories used by posts of this category
+							$category_obj = get_category_by_slug( $category );
+							$subcategories = get_terms(
+								array(
+									'parent' => $category_obj->term_id,
+									'taxonomy' => 'category'
+								)
+							);
+							//print_r($subcategories);
+							foreach( $subcategories as $key => $cat ) {
+								?>
+								<li class="river-item river-cover river-cover--<?php echo $cat->slug; ?>">
+									<div class='river-card'>
+										<div class='river-card-content'>
+											<div class="river-content">
+
+												<p><a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>"><?php echo $cat->name; ?></a></p>
+
+											</div>
+											<div class="river-count">
+												<?php echo $cat->count; ?>
+											</div>
+										</div>
+									</div>
+								</li>
+								<?php
+							}
+						}
+					?>
+
+					<?php $the_query = new WP_Query( array( 'category_name' => $category, 'offset' => $offset, 'posts_per_page' => $limit ) ); ?>
+
+					<?php if ( $the_query->have_posts() ) : ?>
+						<?php while ( $the_query->have_posts() ) : ?>
+							<?php $the_query->the_post(); ?>
+
+							<?php
+							$this_type   = get_post_type();
+							$this_format = get_post_format() ? : 'standard';
+							$this_kind   = 'note';
+							if ( function_exists( 'has_post_kind' ) && has_post_kind() ) {
+								$this_kind = strtolower( get_post_kind() );
+							}
+							if ( 'standard' === $this_format && 'note' !== $this_kind ) {
+								$this_format = $this_kind;
+							}
+							$template = $this_type . '-' . $this_format;
+							?>
+
+							<li class="river-item river-item--<?php echo $template; ?>">
+								<?php //the_permalink(); ?>
+								<?php //the_title(); ?>
+
+								<?php $utils->get_marlon_template( 'river', $template ); ?>
+
+							</li>
+							<?php wp_reset_postdata(); ?>
+						<?php endwhile; ?>
+					<?php endif; ?>
+
+					<li class="grid-sizer"></li>
+
+				</ul>
+			</div><!-- .scrollarea -->
 
 			<?php
 			return ob_get_clean();

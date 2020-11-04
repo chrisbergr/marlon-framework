@@ -675,6 +675,68 @@ if ( ! class_exists( 'Post_Utilities' ) ) {
 			return $this->utility_print( $this->get_the_content_without_first_video( get_the_ID() ), $echo );
 		}
 
+		private function get_first_galleryimage_of_post( $args = '', $post_id = false ) {
+
+			$this->setup_module( $post_id );
+
+			$args = wp_parse_args(
+				$args,
+				array(
+					'before' => '',
+					'after'  => '',
+				)
+			);
+
+			$content = do_shortcode( apply_filters( 'the_content', $this->post->post_content ) );
+
+
+			$pattern = '/<ul.+class="[^"]*?wp-block-gallery[^"]*?".*>([^$]+?)<\/ul>/i';
+			preg_match_all( $pattern, $content, $matches );
+
+			if ( ! isset( $matches ) || ! isset( $matches[0] ) || ! isset( $matches[0][0] ) ) {
+				$pattern = '/<figure.+class="[^"]*?wp-block-gallery[^"]*?".*>([^$]+?)<\/figure>/i';
+				preg_match_all( $pattern, $content, $matches );
+			}
+
+			$first_gallery = '';
+
+			if ( isset( $matches ) && isset( $matches[0] ) && isset( $matches[0][0] ) ) {
+				$first_gallery = $matches[0][0];
+			}
+
+			$first_gallery = str_replace( 'columns-1', '', $first_gallery );
+			$first_gallery = str_replace( 'columns-2', '', $first_gallery );
+			$first_gallery = str_replace( 'columns-3', '', $first_gallery );
+			$first_gallery = str_replace( 'columns-4', '', $first_gallery );
+			$first_gallery = str_replace( 'columns-5', '', $first_gallery );
+			$first_gallery = str_replace( 'columns-6', '', $first_gallery );
+			$first_gallery = str_replace( 'is-cropped', '', $first_gallery );
+			$first_gallery = str_replace( 'wp-block-gallery', 'marlon-gallery', $first_gallery );
+			$first_gallery = str_replace( 'blocks-gallery-grid', 'marlon-gallery-grid', $first_gallery );
+			$first_gallery = str_replace( 'blocks-gallery-item', 'marlon-gallery-item', $first_gallery );
+
+			$pattern = '/<img.+?src=[\'"]([^\'"]+)[\'"].*?>/i';
+			preg_match_all( $pattern, $first_gallery, $matches );
+			$first_image     = $matches[0][0];
+			$first_image_url = $matches[1][0];
+			$first_image     = $first_image . '<span class="marlon-data" class="photo u-photo" itemprop="image">' . $first_image_url . '</span>';
+
+
+			$gallery = apply_filters( 'themeberger_first_galleryimage_of_post', $first_image, $this->post );
+			$gallery = $args['before'] . $gallery . $args['after'];
+
+			return $gallery;
+
+		}
+		public function get_the_first_galleryimage_of_post( $post_id = false ) {
+			return $this->utility_get(
+				$this->get_first_galleryimage_of_post( $post_id )
+			);
+		}
+		public function the_first_galleryimage_of_post( $echo = true ) {
+			return $this->utility_print( $this->get_the_first_galleryimage_of_post( get_the_ID() ), $echo );
+		}
+
 		private function get_first_gallery_of_post( $args = '', $post_id = false ) {
 
 			$this->setup_module( $post_id );
@@ -885,6 +947,45 @@ if ( ! class_exists( 'Post_Utilities' ) ) {
 		}
 		public function the_context_date( $before = '', $after = '', $class = '', $human = false, $echo = true ) {
 			return $this->utility_print( $this->get_the_context_date( $before, $after, $class, $human, get_the_ID() ), $echo );
+		}
+
+		private function get_context_permalink( $args = '', $post_id = false ) {
+
+			$this->setup_module( $post_id );
+
+			$args = wp_parse_args(
+				$args,
+				array(
+					'before'         => '',
+					'after'          => '',
+				)
+			);
+
+			$url = $this->get_postkinds_data_property( 'url', get_the_id() );
+
+			if( ( strlen( $url ) == 0 ) ) {
+				return;
+			}
+
+			$permalink = apply_filters( 'marlon_context_permalink_date', esc_url( $url ), $this->post );
+			$permalink = $args['before'] . $permalink . $args['after'];
+
+			return $permalink;
+
+		}
+		public function get_the_context_permalink( $before = '', $after = '', $post_id = false ) {
+			return $this->utility_get(
+				$this->get_context_permalink(
+					array(
+						'before'         => $before,
+						'after'          => $after,
+					),
+					$post_id
+				)
+			);
+		}
+		public function the_context_permalink( $before = '', $after = '', $echo = true ) {
+			return $this->utility_print( $this->get_the_context_permalink( $before, $after, get_the_ID() ), $echo );
 		}
 
 		private function get_context_permalink_date( $args = '', $post_id = false ) {
