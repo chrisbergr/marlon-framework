@@ -20,6 +20,10 @@ if ( ! class_exists( 'Marlon_Utilities' ) ) {
 			//NOTE: overwrite in other foundation class
 		}
 
+		protected function is_third_party_active( $plugin ) {
+			return in_array( $plugin, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+		}
+
 		public function get_marlon_template( $slug, $name = null ) {
 
 			$template = '';

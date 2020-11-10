@@ -10,17 +10,19 @@ if ( ! class_exists( 'Marlon' ) ) {
 		protected $loader        = null;
 		private $modules         = array();
 		private $post_types      = array();
+		private $walkers         = array();
 
 		private function __clone() {}
 		private function __wakeup() {}
 
-		public function __construct( $version, $root, $modules = array(), $post_types = array() ) {
+		public function __construct( $version, $root, $modules = array(), $post_types = array(), $walkers = array() ) {
 			$this->core_version = $version;
 			$this->plugin_root  = $root;
 			$this->plugin_url   = plugin_dir_url( __DIR__ );
 			$this->load_dependencies();
 			$this->load_modules( $modules );
 			$this->load_post_types( $post_types );
+			$this->load_walkers( $walkers );
 			$this->loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_scripts', 9 );
 			$this->loader->add_action( 'admin_enqueue_scripts', $this, 'enqueue_admin_scripts', 9 );
 		}
@@ -173,6 +175,38 @@ if ( ! class_exists( 'Marlon' ) ) {
 			return array_key_exists( $post_type, $this->post_types );
 		}
 
+		private function load_walkers( $walkers ) {
+			foreach ( $walkers as $walker => $name ) {
+				$loading_walker = $this->load_walker( $walker );
+				if ( $loading_walker ) {
+					$this->walkers[$walker] = $name;
+				}
+			}
+		}
+
+		private function load_walker( $walker ) {
+			if ( $this->has_walker( $walker ) ) {
+				return false;
+			}
+			$walker_file = $this->get_plugin_root() . 'framework/walker/' . $walker . '/' . $walker . '.php';
+			if ( ! file_exists( $walker_file ) ) {
+				return false;
+			}
+			require_once $walker_file;
+			return true;
+		}
+
+		public function get_walker( $walker ) {
+			if ( $this->has_walker( $walker ) ) {
+				return $this->walkers[$walker];
+			}
+			return false;
+		}
+
+		public function has_walker( $walker ) {
+			return array_key_exists( $walker, $this->walkers );
+		}
+
 		public function get_version() {
 			return $this->core_version;
 		}
@@ -187,9 +221,9 @@ if ( ! class_exists( 'Marlon' ) ) {
 			return $this->loader->run();
 		}
 
-		public static function get_instance( $version, $root, $modules = array(), $post_types = array() ) {
+		public static function get_instance( $version, $root, $modules = array(), $post_types = array(),  $walkers = array() ) {
 			if ( null === self::$instance ) {
-				self::$instance = new self( $version, $root, $modules, $post_types );
+				self::$instance = new self( $version, $root, $modules, $post_types, $walkers );
 			}
 			return self::$instance;
 		}

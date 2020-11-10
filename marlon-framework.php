@@ -60,11 +60,16 @@ function marlon_framework() {
 		'dashboard_widgets'     => 'Dashboard_Widgets',
 		'marlon_shortcodes'     => 'Marlon_Shortcodes',
 		'remove_category_base'  => 'Remove_Category_Base',
+		'comment_utilities'     => 'Comment_Utilities',
+		'comments_merger'       => 'Comments_Merger',
 	);
 	$post_types = array(
 		'post_type_pin' => 'Post_Type_Pin',
 	);
-	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules, $post_types );
+	$marlon_walkers = array(
+		'marlon_comments_walker' => 'Marlon_Comments_Walker',
+	);
+	$framework = call_user_func( array( 'Marlon', 'get_instance' ), MARLON_FRAMEWORK_VERSION, plugin_dir_path( __FILE__ ), $modules, $post_types, $marlon_walkers );
 	return $framework;
 }
 
