@@ -56,6 +56,7 @@ function marlon_framework() {
 		'post_utilities'        => 'Post_Utilities',
 		'post_primary_category' => 'Post_Primary_Category',
 		'post_layout'           => 'Post_Layout',
+		'post_filter'           => 'Post_Filter',
 		'theme_settings'        => 'Theme_Settings',
 		'dashboard_widgets'     => 'Dashboard_Widgets',
 		'marlon_shortcodes'     => 'Marlon_Shortcodes',
